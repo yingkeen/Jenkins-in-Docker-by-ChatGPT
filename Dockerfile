@@ -8,9 +8,6 @@ RUN apt-get update && \
     apt-get install -y curl && \
     apt-get install -y sudo && \
     rm -rf /var/lib/apt/lists/*
-    
-# Create Docker group
-RUN groupadd -g 999 docker
 
 # Install Docker GPG key
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -22,8 +19,11 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/d
 # Install Docker
 RUN apt-get update && \
     apt-get install -y docker-ce-cli && \
-    usermod -aG docker jenkins && \
     rm -rf /var/lib/apt/lists/*
+    
+RUN sudo groupadd docker \
+    && sudo usermod -aG docker jenkins \
+    && sudo chown root:docker /var/run/docker.sock
 
 USER jenkins
 
