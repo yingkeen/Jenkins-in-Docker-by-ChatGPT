@@ -28,7 +28,7 @@ docker build -t my-jenkins .
 docker run --name my-jenkins -d --restart=on-failure -p 8080:8080 -p 50000:50000 --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock -v jenkins-data:/var/jenkins_home my-jenkins
 ```
 
-This command runs the Jenkins container and mounts the host's Docker socket (`/var/run/docker.sock`) to the container's Docker socket
+This command runs the Jenkins container and mounts the host's Docker socket (`/var/run/docker.sock`) to the container's Docker socket with the group that owns the /var/run/docker.sock file on the host to the container's group list, so that the container can access the Docker socket.
 
 ## Accessing Jenkins
 
@@ -53,6 +53,8 @@ This will deploy a new Docker container running the Nginx web server.
 # Disadvantages of Using Unix Socket to Access Docker
 
 Using the Unix socket to access Docker from within a container is convenient, but it has some disadvantages:
+
 - It limits the Docker capabilities available to your Jenkins pipelines, as some Docker commands require a running Docker daemon.
 - It can be a security risk to expose the Docker socket to containers.
+
 Be sure to consider these factors when using this method.
