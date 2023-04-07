@@ -20,10 +20,6 @@ RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/d
 RUN apt-get update && \
     apt-get install -y docker-ce-cli && \
     rm -rf /var/lib/apt/lists/*
-    
-RUN sudo groupadd docker \
-    && sudo usermod -aG docker jenkins \
-    && sudo chown root:docker /var/run/docker.sock
 
 USER jenkins
 
