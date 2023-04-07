@@ -8,6 +8,9 @@ RUN apt-get update && \
     apt-get install -y curl && \
     apt-get install -y sudo && \
     rm -rf /var/lib/apt/lists/*
+    
+# Create Docker group
+RUN groupadd -g 999 docker
 
 # Install Docker GPG key
 RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
