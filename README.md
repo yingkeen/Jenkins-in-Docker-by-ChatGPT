@@ -27,8 +27,7 @@ docker build -t my-jenkins .
 ```bash
 docker run --name my-jenkins -d --restart=on-failure -p 8080:8080 -p 50000:50000 --group-add $(stat -c '%g' /var/run/docker.sock) -v /var/run/docker.sock:/var/run/docker.sock -v jenkins-data:/var/jenkins_home my-jenkins
 ```
-
-This command runs the Jenkins container and mounts the host's Docker socket (`/var/run/docker.sock`) to the container's Docker socket with the group that owns the /var/run/docker.sock file on the host to the container's group list, so that the container can access the Docker socket.
+This command runs the Jenkins container and mounts the host's Docker Unix socket (/var/run/docker.sock) to the container's Docker Unix socket. It also adds the group that owns the /var/run/docker.sock file on the host to the container's group list, enabling the container to access the Docker Unix socket.
 
 ## Accessing Jenkins
 
